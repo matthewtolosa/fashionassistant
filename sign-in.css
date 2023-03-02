@@ -1,6 +1,47 @@
+html {
+    background-color: #E6E6FA;
+}
+
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-family:'Courier New', Courier, monospace;
+}
+
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.login-button {
+    border-radius: 4px;
+    padding: 12px 28px;
+    background-color:#002ead;
+    border: none;
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.login-button:hover {
+    background-color: skyblue;
+    transition: 0.7s;
+    color: black;
+    cursor: pointer;
+}
+
+h1 {
+    font-family:'Courier New', Courier, monospace;
+    text-align: center;
 }
