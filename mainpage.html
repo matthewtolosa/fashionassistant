@@ -7,6 +7,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles.css">
+        
     </head>
     <body>
 
@@ -17,7 +18,7 @@
             <br>
             <button >Suggested Accessories</button>
             <br>
-            <button >Random Outfit</button>
+            <button onclick="randomGenerateOutfit()">Random Outfit</button>
             <br>
             <button >Rate My Look</button>
 
@@ -62,25 +63,51 @@
                 </div>
 
                 <script>
-                let slideIndex = [1,1];
-                let slideId = ["mySlides1", "mySlides2"]
-                showSlides(1, 0);
-                showSlides(1, 1);
+                    function randomGenerateOutfit() {
+                        var prevOrNext = Math.round(Math.random()) * 2 - 1; //returns -1 or 1 (1: Next, -1: Prev)
+                        var topOrBottom = Math.round(Math.random()); // returns 0 or 1 to determine whether we are changing the top or bottom
+                        var clothingID; 
+                        if (prevOrNext < 0) { //This will go prev 
+                            clothingID = Math.floor(Math.random() * 3); //returns 0, 1, or 2
+                            showSlides(clothingID, topOrBottom);
+                            //console.log("about to enter loop");
+                          
+                            //console.log("left loop");
+                        } 
+                        /*if (topOrBottom <= 1) {
+                                return showSlides(clothingID, 1);
+                                console.log("inside the nested if");
+                            }*/
+                        else { //This will go next
+                            clothingID = Math.round((Math.random() * 3) + 1); //returns 2, 3, or 4
+                            return showSlides(clothingID, topOrBottom);
+                        }
+                    }
+                   
+                    let slideIndex = [1,1];
+                    let slideId = ["mySlides1", "mySlides2"]
+                    showSlides(1, 0);
+                    showSlides(1, 1);
 
-                function plusSlides(n, no) {
-                showSlides(slideIndex[no] += n, no);
-                }
+                    function plusSlides(n, no) {
+                        console.log("n in plusSlides:" + n);
+                        showSlides(slideIndex[no] += n, no);
+                    }
 
-                function showSlides(n, no) {
-                let i;
-                let x = document.getElementsByClassName(slideId[no]);
-                if (n > x.length) {slideIndex[no] = 1}    
-                if (n < 1) {slideIndex[no] = x.length}
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";  
-                }
-                x[slideIndex[no]-1].style.display = "block";  
-                }
+                    function showSlides(n, no) {
+                        let i;
+                        let x = document.getElementsByClassName(slideId[no]);
+                        //console.log(x);
+                        console.log(`n in showSlides: ${n}`);
+                        console.log(`no in showSlides: ${no}`);
+                        if (n > x.length) {slideIndex[no] = 1}    
+                        if (n < 1) {slideIndex[no] = x.length}
+                        for (i = 0; i < x.length; i++) {
+                            x[i].style.display = "none";  
+                        }
+                        x[slideIndex[no]-1].style.display = "block";  
+                    }
+
                 </script>
             </div>
     
