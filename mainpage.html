@@ -7,7 +7,9 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles.css">
-        
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     </head>
     <body>
 
@@ -20,12 +22,10 @@
             <br>
             <button onclick="randomGenerateOutfit()">Random Outfit</button>
             <br>
-            <button >Rate My Look</button>
+            <button id = "ratemylook" py-onClick="compute_score()"  >Rate My Look</button>
 
 
         </div>
-
-
             <div class = "right-column">
 
                 <div class="slideshow-container">
@@ -41,8 +41,10 @@
                         <img src="greenshirt.jpg" style="width:250px" class="shirt">
                     </div>
 
-                    <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
-                    <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+                    <a class="prev" py-onClick="shirt_decrement()" onclick="plusSlides(-1, 0)">&#10094;</a>
+                    <a class="next" py-onClick="shirt_increment()" onclick="plusSlides(1, 0)">&#10095;</a>
+
+                    <div id='whitebox' class="white-box"></div>
                 </div>
 
                 <div class="slideshow-container">
@@ -58,12 +60,12 @@
                         <img src="bluejeans.jpg" style="width:250px" class="pants">
                     </div>
 
-                    <a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a>
-                    <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
+                    <a class="prev" py-onClick="pant_decrement()" onclick="plusSlides(-1, 1)">&#10094;</a>
+                    <a class="next" py-onClick="pant_increment()" onclick="plusSlides(1, 1)">&#10095;</a>
                 </div>
 
                 <script>
-                    function randomGenerateOutfit() {
+                function randomGenerateOutfit() {
                         var prevOrNext = Math.round(Math.random()) * 2 - 1; //returns -1 or 1 (1: Next, -1: Prev)
                         var topOrBottom = Math.round(Math.random()); // returns 0 or 1 to determine whether we are changing the top or bottom
                         var clothingID; 
@@ -83,32 +85,136 @@
                             return showSlides(clothingID, topOrBottom);
                         }
                     }
-                   
-                    let slideIndex = [1,1];
-                    let slideId = ["mySlides1", "mySlides2"]
-                    showSlides(1, 0);
-                    showSlides(1, 1);
 
-                    function plusSlides(n, no) {
-                        console.log("n in plusSlides:" + n);
-                        showSlides(slideIndex[no] += n, no);
-                    }
 
-                    function showSlides(n, no) {
-                        let i;
-                        let x = document.getElementsByClassName(slideId[no]);
-                        //console.log(x);
-                        console.log(`n in showSlides: ${n}`);
-                        console.log(`no in showSlides: ${no}`);
-                        if (n > x.length) {slideIndex[no] = 1}    
-                        if (n < 1) {slideIndex[no] = x.length}
-                        for (i = 0; i < x.length; i++) {
-                            x[i].style.display = "none";  
-                        }
-                        x[slideIndex[no]-1].style.display = "block";  
-                    }
+                let slideIndex = [1,1];
+                let slideId = ["mySlides1", "mySlides2"]
+                showSlides(1, 0);
+                showSlides(1, 1);
 
+                
+                function plusSlides(n, no) {
+                showSlides(slideIndex[no] += n, no);
+                }
+
+                function showSlides(n, no) {
+                let i;
+                let x = document.getElementsByClassName(slideId[no]);
+                if (n > x.length) {slideIndex[no] = 1}    
+                if (n < 1) {slideIndex[no] = x.length}
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";  
+                }
+                x[slideIndex[no]-1].style.display = "block";  
+                }
                 </script>
+
+                <py-script>
+                    pant_id = 1
+                    shirt_id = 1
+
+                    def pant_increment():
+                        global pant_id;
+                        if (pant_id < 3):
+                            pant_id+=1
+                        else:
+                            pant_id = 1
+
+                    def shirt_increment():
+                        global shirt_id;
+                        if (shirt_id < 3):
+                            shirt_id+=1
+                        else:
+                            shirt_id = 1
+
+                    def pant_decrement():
+                        global pant_id;
+                        if (pant_id > 0):
+                            pant_id-=1
+                        else:
+                            pant_id = 3
+
+                    def shirt_decrement():
+                        global shirt_id;
+                        if (shirt_id > 0):
+                            shirt_id-=1
+                        else:
+                            shirt_id = 3
+
+                    def compare_color(a1,a2):
+                        x=0
+                        if(a1 == 1 and a2 == 1):
+                            x=2
+                            #print(x)
+                        elif (a1 == 1 and a2 == 2):
+                            x=4
+                        elif(a1 == 1 and a2 == 3):
+                            x=3
+                        elif(a1 == 2 and a2 == 1):
+                            x=3
+                        elif(a1 == 2 and a2 == 2):
+                            x=4
+                        elif(a1 == 2 and a2 == 3):
+                            x=4
+                        elif(a1 == 3 and a2 == 1):
+                            x=2
+                        elif(a1 == 3 and a2 == 2):
+                            x=3
+                        elif(a1 == 3 and a2 == 3):
+                            x=4
+                        return x
+                    def compare_fit(a1,a2):
+                        x=0
+                        if(a1==1 and a2 ==1):
+                            x=2
+                        if(a1==1 and a2 ==2):
+                            x=3
+                        if(a1==1 and a2 ==3):
+                            x=4
+                        if(a1==2 and a2 ==1):
+                            x=4
+                        if(a1==2 and a2 ==2):
+                            x=3
+                        if(a1==2 and a2 ==3):
+                            x=4
+                        if(a1==3 and a2 ==1):
+                            x=1
+                        if(a1==3 and a2 ==2):
+                            x=4
+                        if(a1==3 and a2 ==3):
+                            x=2
+                        return x
+                    def compare_material(a1,a2):
+                        x=0
+                        if(a1==1 and a2 ==1):
+                            x=2
+                        if(a1==1 and a2 ==2):
+                            x=4
+                        if(a1==1 and a2 ==3):
+                            x=3
+                        if(a1==2 and a2 ==1):
+                            x=3
+                        if(a1==2 and a2 ==2):
+                            x=4
+                        if(a1==2 and a2 ==3):
+                            x=5
+                        if(a1==3 and a2 ==1):
+                            x=2
+                        if(a1==3 and a2 ==2):
+                            x=4
+                        if(a1==3 and a2 ==3):
+                            x=3
+                        return x
+
+                    def compute_score():
+                        # First parameter is shirts and second is pants
+                        color = compare_color(shirt_id, pant_id)
+                        fit = compare_fit(shirt_id, pant_id)
+                        material = compare_material(shirt_id, pant_id)
+                        score = (color + fit + material) * 6.25
+                        result = str(score) + "/100"
+                        pyscript.write('whitebox', result)
+                </py-script>
             </div>
     
 

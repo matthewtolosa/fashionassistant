@@ -26,6 +26,15 @@ img {vertical-align: middle;}
     height: 500px;
 }
 
+.white-box {
+    width: 100px; 
+    height: 70px; 
+    right: 0px;
+    position: absolute;
+  top: 8px;
+font-size: xx-large;
+}
+
 /* Next & previous buttons */
 .prev, .next {
   cursor: pointer;
